@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/lxn/walk"
+	"golang.org/x/sys/windows"
 	"golang.org/x/sys/windows/registry"
 )
 
@@ -15,6 +16,13 @@ const appName = "Night Switch"
 const valueName = "AppsUseLightTheme"
 
 func main() {
+	// Windows 10 以外なら終了
+	ver := windows.RtlGetVersion()
+	// log.Println(ver.MajorVersion)
+	if ver.MajorVersion != uint32(10) {
+		log.Fatal("incompatible version")
+	}
+
 	// メインウィンドウ作成
 	mw, err := walk.NewMainWindow()
 	if err != nil {
@@ -48,7 +56,7 @@ func main() {
 
 	// マウスを放したときにイベント
 	mouseUp := make(chan struct{})
-	//defer func() { log.Println("mouseUp"); close(mouseUp) }()
+	// defer func() { log.Println("mouseUp"); close(mouseUp) }()
 	ni.MouseUp().Attach(func(x, y int, button walk.MouseButton) {
 		if button != walk.LeftButton {
 			return
@@ -59,7 +67,7 @@ func main() {
 	// 短期間に届くトリガーを無視
 	// 参考:GoCon2021Spring ホットリロードツールの作り方
 	trg := make(chan struct{}, 1)
-	//defer func() { log.Println("trg"); close(trg) }()
+	// defer func() { log.Println("trg"); close(trg) }()
 	go func() {
 	mouse:
 		for {
@@ -83,10 +91,10 @@ func main() {
 			default:
 			}
 			<-trg
-			log.Println("Click")
+			// log.Println("Click")
 			err = update(ni, icon)
 			if err != nil {
-				//log.Println(err)
+				// log.Println(err)
 				log.Fatal(err)
 			}
 			<-time.NewTimer(time.Second * 5).C
@@ -120,22 +128,22 @@ func update(ni *walk.NotifyIcon, icon *walk.Icon) error {
 		return err
 	}
 	defer k.Close()
-	//defer func() { log.Println("regist"); k.Close() }()
+	// defer func() { log.Println("regist"); k.Close() }()
 
 	// 設定値を取得、なかったらデフォルト設定
-	v, _, err := k.GetIntegerValue(valueName)
-	log.Println(v)
+	_, _, err = k.GetIntegerValue(valueName)
+	// log.Println(v)
 	if err != nil {
-		//log.Println(err)
+		// log.Println(err)
 		err = k.SetDWordValue(valueName, uint32(1))
 		if err != nil {
 			return err
 		}
 	}
 
-	// 設定値、再取得
-	v, _, err = k.GetIntegerValue(valueName)
-	//log.Println(v)
+	// 設定値を再取得
+	v, _, err := k.GetIntegerValue(valueName)
+	// log.Println(v)
 	if err != nil {
 		return err
 	}
