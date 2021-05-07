@@ -11,9 +11,12 @@ import (
 	"golang.org/x/sys/windows/registry"
 )
 
-const appName = "Night Switch"
+const (
+	appName string = "Night Switch"
 
-const valueName = "AppsUseLightTheme"
+	keyPath   string = `SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize`
+	valueName string = "AppsUseLightTheme"
+)
 
 func main() {
 	// Windows 10 以外なら終了
@@ -117,7 +120,7 @@ func main() {
 func update(ni *walk.NotifyIcon, icon *walk.Icon) error {
 	// HKEY_CURRENT_USERのレジストリを変更する
 	// レジストリキーの作成、値の設定の権限
-	k, _, err := registry.CreateKey(registry.CURRENT_USER, `SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize`, registry.QUERY_VALUE|registry.SET_VALUE)
+	k, _, err := registry.CreateKey(registry.CURRENT_USER, keyPath, registry.QUERY_VALUE|registry.SET_VALUE)
 	if err != nil {
 		return err
 	}
