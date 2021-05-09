@@ -4,14 +4,12 @@
         "FileVersion": {
             "Major": 0,
             "Minor": 0,
-            "Patch": 1,
-            "Build": 0
+            "Patch": 1
         },
         "ProductVersion": {
             "Major": 0,
             "Minor": 0,
-            "Patch": 1,
-            "Build": 0
+            "Patch": 1
         },
         "FileFlagsMask": "3f",
         "FileFlags ": "00",
@@ -23,14 +21,14 @@
         "Comments": "",
         "CompanyName": "",
         "FileDescription": "Night Switch",
-        "FileVersion": "",
+        "FileVersion": "0.0.1",
         "InternalName": "",
-        "LegalCopyright": "",
+        "LegalCopyright": "(c) 2021 yulog",
         "LegalTrademarks": "",
         "OriginalFilename": "nightsw.exe",
         "PrivateBuild": "",
         "ProductName": "Night Switch",
-        "ProductVersion": "0.0.1.0",
+        "ProductVersion": "0.0.1",
         "SpecialBuild": ""
     },
     "VarFileInfo": {
@@ -39,6 +37,6 @@
             "CharsetID": "03A4"
         }
     },
-    "IconPath": "../resource/icon/night.ico",
+    "IconPath": "night.ico",
     "ManifestPath": "nightsw.manifest"
 }
